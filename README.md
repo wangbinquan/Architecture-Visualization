@@ -16,7 +16,7 @@
 
 | 层次 | 技术 |
 |------|------|
-| 后端 | Java 20 · Spring Boot 3.4.1 · Maven |
+| 后端 | Java 21 · Spring Boot 3.4.1 · Maven |
 | 前端 | TypeScript · React 18 · Vite 6 |
 | UI 组件 | Ant Design 5 |
 | 图形可视化 | AntV G6 5 |
@@ -26,7 +26,7 @@
 
 ### 前置条件
 
-- Java 17+（已验证 Java 20）
+- Java 21+
 - Node.js 18+
 - Maven 3.9+
 - Git（配置好 SSH 密钥以访问企业内部代码仓）
