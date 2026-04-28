@@ -1,0 +1,11 @@
+archvis:
+  sync:
+    interval-seconds: 300
+    local-base-path: /Users/wangbinquan/.archvis/repos
+  repositories:
+    - name: feature-repo-demo
+      url: file:///Users/wangbinquan/Documents/proj/Architecture-Visualization/demo-repos/feature-remote
+      branch: main
+    - name: datasource-repo-demo
+      url: file:///Users/wangbinquan/Documents/proj/Architecture-Visualization/demo-repos/datasource-remote
+      branch: main

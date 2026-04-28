@@ -1,0 +1,21 @@
+# Backend
+backend/target/
+backend/.mvn/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Demo repos (local git repos created by setup-demo.sh)
+demo-repos/feature-remote/.git/
+demo-repos/datasource-remote/.git/
+
+# Generated Spring profile config
+backend/src/main/resources/application-demo.yml
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.DS_Store

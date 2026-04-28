@@ -1,0 +1,60 @@
+{
+  "id": "finance-ds",
+  "name": "财务数据源",
+  "subCollections": [
+    {
+      "id": "transactions",
+      "name": "交易集合",
+      "businessMetrics": [
+        {
+          "id": "amount",
+          "name": "交易金额",
+          "dataType": "decimal",
+          "description": "交易金额（元），精确到分"
+        },
+        {
+          "id": "currency",
+          "name": "货币类型",
+          "dataType": "string",
+          "description": "ISO 4217 货币代码，如 CNY/USD"
+        },
+        {
+          "id": "status",
+          "name": "交易状态",
+          "dataType": "enum",
+          "description": "pending / success / failed / refunded"
+        },
+        {
+          "id": "txn_time",
+          "name": "交易时间",
+          "dataType": "datetime",
+          "description": "交易发生时间"
+        }
+      ]
+    },
+    {
+      "id": "accounts",
+      "name": "账户集合",
+      "businessMetrics": [
+        {
+          "id": "balance",
+          "name": "账户余额",
+          "dataType": "decimal",
+          "description": "当前账户可用余额"
+        },
+        {
+          "id": "account_type",
+          "name": "账户类型",
+          "dataType": "string",
+          "description": "personal / enterprise"
+        },
+        {
+          "id": "credit_limit",
+          "name": "信用额度",
+          "dataType": "decimal",
+          "description": "账户授信上限"
+        }
+      ]
+    }
+  ]
+}

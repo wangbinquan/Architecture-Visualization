@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="order" name="订单特性">
+    <configs>
+        <config id="order-core" name="订单核心配置">
+            <databaseTables>
+                <table name="order_main" description="主订单表"/>
+                <table name="order_item" description="订单明细表"/>
+                <table name="order_status_log" description="状态流水表"/>
+            </databaseTables>
+            <i18nEntries>
+                <entry key="order.title" defaultValue="订单管理"/>
+                <entry key="order.status.pending" defaultValue="待处理"/>
+                <entry key="order.status.completed" defaultValue="已完成"/>
+            </i18nEntries>
+            <dataSourceRequirements>
+                <requirement datasourceId="user-ds" collectionId="users" metricId="userId"/>
+                <requirement datasourceId="user-ds" collectionId="users" metricId="username"/>
+                <requirement datasourceId="finance-ds" collectionId="transactions" metricId="amount"/>
+            </dataSourceRequirements>
+        </config>
+    </configs>
+</feature>

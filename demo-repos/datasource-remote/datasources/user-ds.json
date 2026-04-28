@@ -1,0 +1,60 @@
+{
+  "id": "user-ds",
+  "name": "用户数据源",
+  "subCollections": [
+    {
+      "id": "users",
+      "name": "用户基础信息",
+      "businessMetrics": [
+        {
+          "id": "userId",
+          "name": "用户ID",
+          "dataType": "string",
+          "description": "唯一用户标识符"
+        },
+        {
+          "id": "username",
+          "name": "用户名",
+          "dataType": "string",
+          "description": "登录用户名"
+        },
+        {
+          "id": "email",
+          "name": "邮箱",
+          "dataType": "string",
+          "description": "用户注册邮箱"
+        },
+        {
+          "id": "created_at",
+          "name": "注册时间",
+          "dataType": "datetime",
+          "description": "账号创建时间"
+        }
+      ]
+    },
+    {
+      "id": "user_profiles",
+      "name": "用户画像",
+      "businessMetrics": [
+        {
+          "id": "age_group",
+          "name": "年龄段",
+          "dataType": "enum",
+          "description": "18-25 / 26-35 / 36-45 / 46+"
+        },
+        {
+          "id": "region",
+          "name": "所在地区",
+          "dataType": "string",
+          "description": "省份/城市"
+        },
+        {
+          "id": "user_level",
+          "name": "用户等级",
+          "dataType": "int",
+          "description": "1-5 等级，5最高"
+        }
+      ]
+    }
+  ]
+}

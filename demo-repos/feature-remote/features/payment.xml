@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="payment" name="支付特性">
+    <configs>
+        <config id="payment-core" name="支付核心配置">
+            <databaseTables>
+                <table name="payment_order" description="支付订单表"/>
+                <table name="payment_record" description="支付记录表"/>
+                <table name="payment_channel" description="支付渠道表"/>
+            </databaseTables>
+            <i18nEntries>
+                <entry key="payment.title" defaultValue="支付"/>
+                <entry key="payment.confirm" defaultValue="确认支付"/>
+                <entry key="payment.cancel" defaultValue="取消支付"/>
+            </i18nEntries>
+            <dataSourceRequirements>
+                <requirement datasourceId="finance-ds" collectionId="transactions" metricId="amount"/>
+                <requirement datasourceId="finance-ds" collectionId="transactions" metricId="currency"/>
+                <requirement datasourceId="finance-ds" collectionId="accounts" metricId="balance"/>
+            </dataSourceRequirements>
+        </config>
+        <config id="payment-report" name="支付报表配置">
+            <databaseTables>
+                <table name="payment_report_daily" description="日支付报表"/>
+            </databaseTables>
+            <i18nEntries>
+                <entry key="payment.report.title" defaultValue="支付报表"/>
+                <entry key="payment.report.amount" defaultValue="金额"/>
+            </i18nEntries>
+            <dataSourceRequirements>
+                <requirement datasourceId="finance-ds" collectionId="transactions" metricId="status"/>
+            </dataSourceRequirements>
+        </config>
+    </configs>
+</feature>

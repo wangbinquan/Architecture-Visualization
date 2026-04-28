@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: arch-vis
+  jackson:
+    default-property-inclusion: non_null
+
+archvis:
+  sync:
+    interval-seconds: 300
+    local-base-path: ${user.home}/.archvis/repos
+  repositories: []
+  ai-tools:
+    enabled: false
+    default-tool: claude-code
+    claude-code-cli-path: /usr/local/bin/claude
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.archvis: DEBUG
