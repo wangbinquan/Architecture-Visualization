@@ -96,3 +96,28 @@ Backend broadcasts sync lifecycle events (`SYNC_STARTED`, `SYNC_REPO_DONE`, `SYN
 ## Pending (Business Development Phase)
 
 File → Domain mapping rules (Schema Mapping), cross-repo reference format, enterprise Git MR API, and per-field edit permissions are deferred to the business logic phase. See `design/architecture-design.md` § 10 for the full list.
+
+## Contribution Rules
+
+每次代码/配置/结构变更都必须同时产出以下三类产物，并放在**同一个 commit / PR** 中提交，缺一不可：
+
+### 1. 代码变更
+正常的功能/修复/重构代码。
+
+### 2. README.md 同步
+对应变更必须同步更新 `README.md`（以及存在的 `README.zh-CN.md`）：
+- 新增模块、接口、页面 → 更新"功能概述" / "API 文档" / "项目结构"
+- 变更技术栈版本 → 更新"技术栈"表
+- 变更配置格式 → 更新"配置说明"
+- 完成待办功能 → 将"开发状态"中对应条目打勾
+
+### 3. 增量设计文档（仅新增功能/能力时）
+新增模块、新增对外能力、对外接口或重大重构时，必须在 `design/` 目录下新增一份 `design/<feature>-design.md`，与既有 `design/architecture-design.md` 并列归档。
+
+文档结构参考首份 MCP Server 设计文档（`design/mcp-server-design.md`）：
+背景 / 决策 / 模块结构 / 契约 / 时序 / 配置 / 集成关系 / 安全 / 验证 / 后续工作。
+
+要求：
+- 即使是 stub 或骨架级实现，也要写出当前阶段的状态和后续工作清单，避免设计意图丢失
+- 不要等到功能完美才写——先落一份 v0.x，随实现迭代更新版本号
+- 设计文档进 git，作为团队共享的设计资产；不要依赖 `~/.claude/plans/` 之类仓外位置
