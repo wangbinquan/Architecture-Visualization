@@ -11,6 +11,7 @@
 | **特性管理** | 特性 → 配置项 → 数据库表 / 国际化 / 数据源引用 |
 | **依赖关系图** | 全量架构依赖图，可视化特性与数据源之间的引用关系 |
 | **业务化编辑** | 界面增删改查，修改后自动生成 Git commit 并发起 MR |
+| **MCP Server** | 内嵌 Model Context Protocol Server，AI Agent 可直接调用查询/编辑工具 |
 
 ## 技术栈
 
@@ -74,6 +75,7 @@ Architecture-Visualization/
 │       ├── domain/                 # 领域模型（Feature、DataSourceDef 等）
 │       ├── model/                  # 内存模型（无持久化 DB）
 │       ├── editor/                 # 编辑提交（git commit + MR + AI工具接口）
+│       ├── mcp/                    # MCP Server（@Tool 包装查询/编辑能力给 AI Agent）
 │       ├── websocket/              # WebSocket 同步状态推送
 │       └── api/                    # REST Controllers
 ├── frontend/                       # React 前端
@@ -136,12 +138,80 @@ mvn spring-boot:run -Dspring-boot.run.profiles=your-profile
 | GET | `/api/v1/datasources` | 数据源列表 |
 | GET | `/api/v1/graph/full` | 完整依赖关系图数据 |
 
+## MCP Server（AI Agent 接入）
+
+后端启动后会以 **Streamable HTTP** 协议在同一端口（`8080`）暴露一个 Model Context Protocol Server，端点：
+
+```
+http://localhost:8080/mcp
+```
+
+AI Agent（Claude Code、opencode 等支持 MCP 的客户端）可通过该端点直接调用以下工具，无需走 REST API。
+
+### 暴露的工具
+
+| 工具名 | 类别 | 功能 |
+|--------|------|------|
+| `list_features` | 查询 | 列出所有特性，可选名称/ID 子串过滤 |
+| `get_feature` | 查询 | 按 ID 获取单个特性详情 |
+| `get_feature_dependencies` | 查询 | 获取特性的依赖关系链接 |
+| `list_datasources` | 查询 | 列出所有数据源，可选过滤 |
+| `get_datasource` | 查询 | 按 ID 获取单个数据源详情 |
+| `get_datasource_referenced_by` | 查询 | 获取引用了该数据源的所有依赖 |
+| `get_full_graph` | 查询 | 完整架构依赖图（节点 + 边） |
+| `get_feature_graph` | 查询 | 单个特性的子图 |
+| `get_sync_status` | 查询 | 各代码仓同步状态 |
+| `preview_edit` | 编辑 | 预览编辑效果（占位描述） |
+| `submit_edit` | 编辑 | 提交编辑（B-01 完成前为 stub，返回失败但保留链路） |
+| `list_recent_mrs` | 编辑 | 列出本会话内通过 MCP 提交的 MR 历史 |
+
+### Claude Code 接入
+
+在 `~/.claude.json`（或工程级 `.mcp.json`）添加：
+
+```json
+{
+  "mcpServers": {
+    "arch-vis": {
+      "type": "http",
+      "url": "http://localhost:8080/mcp"
+    }
+  }
+}
+```
+
+重启 Claude Code，在新会话中执行 `/mcp` 即可看到 `arch-vis` 已连接，并可直接对 Claude 说"列一下当前所有 features"，模型会自动调用 `list_features` 工具。
+
+### 配置开关
+
+```yaml
+archvis:
+  mcp:
+    enabled: true   # 设为 false 即可关闭 MCP Server，REST API 不受影响
+spring:
+  ai:
+    mcp:
+      server:
+        name: arch-vis-mcp
+        version: 0.1.0
+```
+
+### 安全说明
+
+首版**未启用身份认证**，仅适合内网/本地使用。生产环境上线前需补：
+
+- API Key（`Authorization` Header）或 OAuth2 Resource Server
+- IP 白名单或 Spring Security 拦截
+- 编辑类工具的细粒度授权（按 `entityType` / `field` 控制）
+
 ## 开发状态
 
 - [x] 架构设计
 - [x] 后端基础框架（同步、解析、内存模型、REST API、WebSocket）
 - [x] 前端基础框架（Dashboard、特性、数据源、关系图、MR记录）
+- [x] MCP Server（查询工具 + 编辑工具骨架，Streamable HTTP 传输）
 - [ ] 业务 Schema 映射（B-01）
 - [ ] 企业 Git 平台 MR API 对接（B-07）
 - [ ] 界面编辑提交完整流程
 - [ ] AI 工具集成（Claude Code / opencode）
+- [ ] MCP Server 鉴权（API Key / OAuth2）

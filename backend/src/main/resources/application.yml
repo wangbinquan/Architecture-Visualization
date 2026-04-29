@@ -6,8 +6,20 @@ spring:
     name: arch-vis
   jackson:
     default-property-inclusion: non_null
+  ai:
+    mcp:
+      server:
+        name: arch-vis-mcp
+        version: 0.1.0
+        type: SYNC
+        instructions: |
+          Architecture Visualization MCP Server.
+          Provides read-only architecture queries (features, datasources, dependency graph, sync status)
+          and code-edit submission tools that create git branches via the configured repos.
 
 archvis:
+  mcp:
+    enabled: true
   sync:
     interval-seconds: 300
     local-base-path: ${user.home}/.archvis/repos
